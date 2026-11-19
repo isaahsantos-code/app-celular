@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color" content="#087f5b">
+
+    <title>MeuBolso | Controle Financeiro</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<header class="topbar">
+
+    <div class="brand">
+
+        <div class="brand-icon">M</div>
+
+        <div>
+
+            <h1>MeuBolso</h1>
+
+            <small>Seu dinheiro, sob controle.</small>
+
+        </div>
+
+    </div>
+
+    <button class="profile" title="Perfil">👤</button>
+
+</header>
+
+<main class="container">
+
+    <section id="dashboard" class="page active">
+
+        <div class="welcome">
+
+            <div>
+
+                <p class="muted">Bem-vinda ao seu controle financeiro</p>
+
+                <h2>Visão geral</h2>
+
+            </div>
+
+            <span id="currentDate"></span>
+
+        </div>
+
+        <div class="balance-card">
+
+            <p>Saldo total</p>
+
+            <h2 id="totalBalance">R$ 0,00</h2>
+
+            <small>Seu saldo atual</small>
+
+        </div>
+
+        <div class="summary">
+
+            <div class="summary-card">
+
+                <span>↗️ Receitas</span>
+
+                <h3 class="income" id="totalIncome">R$ 0,00</h3>
+
+            </div>
+
+            <div class="summary-card">
+
+                <span>↘️ Despesas</span>
+
+                <h3 class="expense" id="totalExpense">R$ 0,00</h3>
+
+            </div>
+
+        </div>
+
+        <div class="section-heading">
+
+            <h3>Últimas movimentações</h3>
+
+            <button onclick="showPage('transactions')">Ver todas</button>
+
+        </div>
+
+        <div id="recentTransactions" class="transaction-list"></div>
+
+        <div class="section-heading">
+
+            <h3>Minhas metas</h3>
+
+            <button onclick="showPage('goals')">Ver metas</button>
+
+        </div>
+
+        <div id="dashboardGoals"></div>
+
+    </section>
+
+    <section id="transactions" class="page">
+
+        <h2>Movimentações</h2>
+
+        <p class="muted">Organize suas entradas e saídas.</p>
+
+        <form id="transactionForm" class="panel">
+
+            <h3>Nova movimentação</h3>
+
+            <label>Descrição</label>
+
+            <input id="description" type="text"
+
+                   placeholder="Ex: Salário, mercado..." required>
+
+            <label>Valor (R$)</label>
+
+            <input id="amount" type="number"
+
+                   min="0.01" step="0.01" placeholder="0,00" required>
+
+            <label>Tipo</label>
+
+            <select id="type">
+
+                <option value="income">Receita</option>
+
+                <option value="expense">Despesa</option>
+
+            </select>
+
+            <label>Categoria</label>
+
+            <select id="category">
+
+                <option>Salário</option>
+
+                <option>Alimentação</option>
+
+                <option>Moradia</option>
+
+                <option>Transporte</option>
+
+                <option>Educação</option>
+
+                <option>Saúde</option>
+
+                <option>Lazer</option>
+
+                <option>Compras</option>
+
+                <option>Outros</option>
+
+            </select>
+
+            <label>Data</label>
+
+            <input id="transactionDate" type="date" required>
+
+            <button class="primary-button" type="submit">
+
+                Adicionar movimentação
+
+            </button>
+
+        </form>
+
+        <h3 class="list-title">Histórico completo</h3>
+
+        <div id="allTransactions" class="transaction-list"></div>
+
+    </section>
+
+    <section id="goals" class="page">
+
+        <h2>Metas financeiras</h2>
+
+        <p class="muted">Planeje suas conquistas.</p>
+
+        <form id="goalForm" class="panel">
+
+            <h3>Criar nova meta</h3>
+
+            <label>Nome da meta</label>
+
+            <input id="goalName" placeholder="Ex: Comprar um notebook" required>
+
+            <label>Valor desejado (R$)</label>
+
+            <input id="goalTarget" type="number" min="0.01"
+
+                   step="0.01" required>
+
+            <button class="primary-button" type="submit">
+
+                Criar meta
+
+            </button>
+
+        </form>
+
+        <div id="goalsList"></div>
+
+    </section>
+
+    <section id="budget" class="page">
+
+        <h2>Orçamento mensal</h2>
+
+        <p class="muted">Defina limites para seus gastos.</p>
+
+        <form id="budgetForm" class="panel">
+
+            <h3>Definir orçamento</h3>
+
+            <label>Categoria</label>
+
+            <select id="budgetCategory">
+
+                <option>Alimentação</option>
+
+                <option>Moradia</option>
+
+                <option>Transporte</option>
+
+                <option>Educação</option>
+
+                <option>Saúde</option>
+
+                <option>Lazer</option>
+
+                <option>Compras</option>
+
+                <option>Outros</option>
+
+            </select>
+
+            <label>Limite mensal (R$)</label>
+
+            <input id="budgetLimit" type="number"
+
+                   min="0.01" step="0.01" required>
+
+            <button class="primary-button" type="submit">
+
+                Salvar orçamento
+
+            </button>
+
+        </form>
+
+        <div id="budgetsList"></div>
+
+    </section>
+
+    <section id="reports" class="page">
+
+        <h2>Relatórios</h2>
+
+        <p class="muted">Entenda para onde seu dinheiro está indo.</p>
+
+        <div class="panel">
+
+            <h3>Despesas por categoria</h3>
+
+            <div id="categoryReport"></div>
+
+        </div>
+
+        <div class="panel">
+
+            <h3>Resumo do mês atual</h3>
+
+            <p>Receitas: <strong id="reportIncome">R$ 0,00</strong></p>
+
+            <p>Despesas: <strong id="reportExpense">R$ 0,00</strong></p>
+
+            <p>Resultado: <strong id="reportResult">R$ 0,00</strong></p>
+
+        </div>
+
+    </section>
+
+    <section id="banks" class="page">
+
+        <h2>Contas bancárias</h2>
+
+        <p class="muted">
+
+            Gerencie contas de demonstração e conheça a integração bancária.
+
+        </p>
+
+        <div class="panel">
+
+            <h3>Contas conectadas</h3>
+
+            <div id="bankList"></div>
+
+        </div>
+
+        <div class="panel">
+
+            <h3>Open Finance</h3>
+
+            <p>
+
+                O Open Finance permite compartilhar dados financeiros
+
+                entre instituições autorizadas, mediante consentimento.
+
+            </p>
+
+            <p class="muted">
+
+                Nesta versão, a conexão é apenas demonstrativa.
+
+                Nenhum banco real está conectado.
+
+            </p>
+
+            <button class="primary-button" onclick="simulateBank()">
+
+                Simular conexão bancária
+
+            </button>
+
+        </div>
+
+    </section>
+
+</main>
+
+<nav class="bottom-nav">
+
+    <button onclick="showPage('dashboard')" class="nav-item selected">
+
+        <span>⌂</span><small>Início</small>
+
+    </button>
+
+    <button onclick="showPage('transactions')" class="nav-item">
+
+        <span>↕️</span><small>Movimentos</small>
+
+    </button>
+
+    <button onclick="showPage('goals')" class="nav-item">
+
+        <span>◎</span><small>Metas</small>
+
+    </button>
+
+    <button onclick="showPage('reports')" class="nav-item">
+
+        <span>▥</span><small>Relatórios</small>
+
+    </button>
+
+    <button onclick="showPage('banks')" class="nav-item">
+
+        <span>▣</span><small>Contas</small>
+
+    </button>
+
+</nav>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
